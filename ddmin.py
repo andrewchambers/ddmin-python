@@ -71,6 +71,9 @@ if __name__ == "__main__":
         "--to-minimize", required=True, help="Path to the file to minimize (it is minimized in destructively in place)."
     )
     parser.add_argument(
+        "--granularity", type=int, default=2, help="Starting granularity (typically not needed, more means finer grained reductions)."
+    )
+    parser.add_argument(
         "-b", "--bytes", action="store_true", help="Minimize by bytes instead of lines."
     )
     args = parser.parse_args()
@@ -107,6 +110,7 @@ if __name__ == "__main__":
     minimized = delta_debug(
         is_interesting,
         input_data,
+        granularity=args.granularity,
     )
     write_to_minimize(minimized)
     os.remove(args.to_minimize + ".ddmin_most_interesting_so_far")
